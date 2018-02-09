@@ -63,8 +63,8 @@ RUN set -xe \
 		--with-http_stub_status_module \
 		--with-pcre \
 		--with-pcre-jit \
-		--with-http_flv_module \
-		--with-http_mp4_module \
+		--with-http_flv_module=shared \
+		--with-http_mp4_module=shared \
 		--with-http_addition_module \
 		--with-threads \
 		--with-http_secure_link_module \

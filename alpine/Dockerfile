@@ -26,6 +26,7 @@ RUN set -xe \
 	&& tar zxf tengine-${NGINX_VERSION}.tar.gz \
 	&& rm -rf tengine-${NGINX_VERSION}.tar.gz \
 	&& cd tengine-${NGINX_VERSION}/ \
+	&& ./configure --help && exit \
 	&& ./configure \
 		--prefix=/usr/local \
 		--conf-path=${NGINX_INI_DIR}/nginx.conf \
@@ -45,8 +46,8 @@ RUN set -xe \
 		--with-http_stub_status_module \
 		--with-pcre \
 		--with-pcre-jit \
-		--with-http_flv_module \
-		--with-http_mp4_module \
+		--with-http_flv_module=shared \
+		--with-http_mp4_module=shared \
 		--with-http_addition_module \
 		--with-threads \
 		--with-http_secure_link_module \

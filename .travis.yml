@@ -22,7 +22,7 @@ before_install:
 
 before_script:
   - env | sort
-  - cd "$OS_SUITE/$NGINX_SUITE"
+  - cd "$OS"
   - image="xutl/tengine:${VERSION}-${OS}"
 
 script:

@@ -53,6 +53,7 @@ RUN set -xe \
 		--with-http_degradation_module \
 		--with-http_ssl_module \
 		--with-http_gzip_static_module \
+		--with-http_upstream_check_module \
 		--without-mail_imap_module \
 		--without-mail_pop3_module \
 		--without-mail_smtp_module \

@@ -1,0 +1,47 @@
+language: bash
+
+sudo: required
+
+services:
+  - docker
+
+env:
+#   Debian
+  - OS=alpine MAJOR_VERSION=2.2 VERSION=2.2.2
+#   Debian
+  - OS=stretch MAJOR_VERSION=2.2 VERSION=2.2.2
+#   Ubuntu
+  - OS=xenial MAJOR_VERSION=2.2 VERSION=2.2.2
+
+before_install:
+  - export DOCKER_COMPOSE_VERSION=1.18.0
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+before_script:
+  - env | sort
+  - cd "$OS_SUITE/$NGINX_SUITE"
+  - image="xutl/tengine:${VERSION}-${OS}"
+
+script:
+  - travis_retry docker build -t "$image" .
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+      docker login --username="${DOCKER_REGISTRY_USER}" --password="${DOCKER_REGISTRY_PASSWORD}";
+      docker push $image;
+      docker tag $image xutl/tengine:${VERSION};
+      docker push xutl/tengine:${VERSION};
+      docker tag $image xutl/tengine:${MAJOR_VERSION}-${OS};
+      docker push xutl/tengine:${MAJOR_VERSION}-${OS};
+      if [[ "${OS}" == "alpine" ]]; then
+        docker tag $image xutl/tengine:${MAJOR_VERSION};
+        docker push xutl/tengine:${MAJOR_VERSION};
+        docker tag $image xutl/tengine:latest;
+        docker push xutl/tengine:latest;
+      fi;
+    fi;
+
+# vim:set et ts=2 sw=2:

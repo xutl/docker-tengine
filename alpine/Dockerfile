@@ -26,7 +26,6 @@ RUN set -xe \
 	&& tar zxf tengine-${NGINX_VERSION}.tar.gz \
 	&& rm -rf tengine-${NGINX_VERSION}.tar.gz \
 	&& cd tengine-${NGINX_VERSION}/ \
-	&& ./configure --help && exit \
 	&& ./configure \
 		--prefix=/usr/local \
 		--conf-path=${NGINX_INI_DIR}/nginx.conf \
